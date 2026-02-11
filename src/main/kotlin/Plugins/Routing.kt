@@ -1,9 +1,10 @@
-package com.mathew
+package com.mathew.Plugins
 
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.resources.Resource
 
 fun Application.configureRouting() {
 
@@ -40,3 +41,12 @@ fun Application.configureRouting() {
         }
     }
 }
+
+/*    */
+
+@Resource("blogs")
+    class Blogs(val sort : String? = "new"){
+        @Resource("{id}")
+        data class Blog(val parent:Blogs = Blogs(),val id:String)
+    }
+
