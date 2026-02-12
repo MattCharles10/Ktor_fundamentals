@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.resources.Resource
+import io.ktor.server.resources.*
 
 fun Application.configureRouting() {
 
@@ -39,6 +40,11 @@ fun Application.configureRouting() {
             val version = call.pathParameters["apiVersion"]
             call.respondText { "Api Version is $version" }
         }
+
+        get<Blogs> { blogs ->
+            val sort = blogs.sort
+            call.respondText("Blogs sorted by $sort")
+        }
     }
 }
 
@@ -49,4 +55,6 @@ fun Application.configureRouting() {
         @Resource("{id}")
         data class Blog(val parent:Blogs = Blogs(),val id:String)
     }
+
+
 
