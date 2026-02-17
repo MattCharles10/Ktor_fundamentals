@@ -53,17 +53,22 @@ fun Application.configureRouting() {
         }
 
         //nested routes - to make much more readable
-        route("accounts"){
-            route("users"){
-                get{ }
-                get("{id}"){}
-                post(""){}
-                patch("{id}"){}
-            }
-            route("auth"){
-                post("login"){ }
-                post("signup"){ }
-            }
+        accountRoutes()
+
+    }
+}
+
+fun Route.accountRoutes(){
+    route("accounts"){
+        route("users"){
+            get{ }
+            get("{id}"){}
+            post(""){}
+            patch("{id}"){}
+        }
+        route("auth"){
+            post("login"){ }
+            post("signup"){ }
         }
     }
 }
