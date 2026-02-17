@@ -51,6 +51,20 @@ fun Application.configureRouting() {
             call.respondText { "Blog id : $id sorting is based on $sort" }
 
         }
+
+        //nested routes - to make much more readable
+        route("accounts"){
+            route("users"){
+                get{ }
+                get("{id}"){}
+                post(""){}
+                patch("{id}"){}
+            }
+            route("auth"){
+                post("login"){ }
+                post("signup"){ }
+            }
+        }
     }
 }
 
