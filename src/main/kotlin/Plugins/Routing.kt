@@ -45,9 +45,10 @@ fun Application.configureRouting() {
             val sort = blogs.sort
             call.respondText("Blogs sorted by $sort")
         }
-        delete<Blogs.Blog> { blog ->
-            val id = blog.id
-            call.respondText { "Blog id : $id" }
+        delete<Blogs.Blog> { blogs ->
+            val sort = blogs.parent.sort
+            val id = blogs.id
+            call.respondText { "Blog id : $id sorting is based on $sort" }
 
         }
     }
