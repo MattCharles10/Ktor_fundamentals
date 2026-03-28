@@ -11,7 +11,7 @@ fun Application.configureRouting() {
 
     routing {
 
-        // ✅ Root route (fixes your failing test)
+
         get("/") {
             call.respondText("Hello World!")
         }
