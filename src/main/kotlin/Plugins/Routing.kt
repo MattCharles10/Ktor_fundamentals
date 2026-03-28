@@ -1,52 +1,40 @@
 package com.mathew.Plugins
 
-import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.resources.Resource
+import io.ktor.server.request.receiveParameters
+import kotlinx.serialization.Serializable
 
 fun Application.configureRouting() {
 
-    install(RoutingRoot){
-        route("/" , HttpMethod.Get){
-            handle {
-                call.respondText { "Hello world 123" }
-            }
-        }
-    }
-
     routing {
+
+        // ✅ Root route (fixes your failing test)
         get("/") {
             call.respondText("Hello World!")
         }
-        get("blogs/{id}"){
-            val id = call.pathParameters["id"]
-            val q1 = call.queryParameters["q1"]
-            val q2 = call.queryParameters["q2"]
-            call.respondText { "Blog with id $id and query is $q1 & query 2 is $q2"  }
-        }
 
-        get(Regex(".+/test")){
-            call.respondText { "Api_response_test" }
-        }
+        // ✅ Checkout route
+        post("/checkout") {
+            val formData = call.receiveParameters()
 
-        //api/v1/users
-        //api/v2/users
-        //api/v3/users
+            val productId = formData["productId"] ?: "Unknown"
+            val quantity = formData["quantity"] ?: "0"
 
-        get(Regex("api/(?<apiVersion>v[1-3])/users")){
-            val version = call.pathParameters["apiVersion"]
-            call.respondText { "Api Version is $version" }
+            call.respondText(
+                "Order placed successfully Product Id : $productId & Quantity : $quantity",
+                status = HttpStatusCode.OK
+            )
         }
     }
 }
 
-/*    */
-
-@Resource("blogs")
-    class Blogs(val sort : String? = "new"){
-        @Resource("{id}")
-        data class Blog(val parent:Blogs = Blogs(),val id:String)
-    }
-
+/* Data class */
+@Serializable
+data class Product(
+    val name: String,
+    val category: String,
+    val price: Int
+)
