@@ -11,23 +11,13 @@ fun Application.configureRouting() {
 
     routing {
 
-
-        get("/") {
-            call.respondText("Hello World!")
-        }
-
-        // ✅ Checkout route
-        post("/checkout") {
+        post("checkout"){
             val formData = call.receiveParameters()
-
-            val productId = formData["productId"] ?: "Unknown"
-            val quantity = formData["quantity"] ?: "0"
-
-            call.respondText(
-                "Order placed successfully Product Id : $productId & Quantity : $quantity",
-                status = HttpStatusCode.OK
-            )
+            val productId = formData["productId"]
+            val quantity = formData["quantity"]
+            call.respondText { "Order palced sucessfully ${productId} & Quantity : $quantity" }
         }
+
     }
 }
 
